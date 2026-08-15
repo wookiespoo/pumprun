@@ -440,6 +440,38 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 }
 .select-load.show { display: flex; }
 
+.ca-box {
+  margin: 8px auto 0;
+  width: min(720px, 92vw);
+  pointer-events: auto;
+  background: rgba(8,6,14,0.82);
+  border: 1px solid rgba(245,197,66,0.45);
+  padding: 8px 10px 7px;
+  text-align: center;
+}
+.ca-box .ca-line {
+  display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+}
+.ca-box .ca-lab { color: #f5c542; font-size: clamp(12px, 1.3vw, 16px); letter-spacing: 0.1em; }
+.ca-box .ca-addr {
+  color: #fff; font-size: clamp(11px, 1.2vw, 15px); letter-spacing: 0.04em;
+  word-break: break-all; max-width: 72vw;
+}
+.ca-box .ca-copy {
+  pointer-events: auto; cursor: pointer;
+  border: 1px solid var(--green); background: transparent; color: var(--green);
+  font-family: var(--gta); font-size: 13px; letter-spacing: 0.08em;
+  padding: 3px 8px;
+}
+.ca-box .ca-copy.ok { background: var(--green); color: #04140e; }
+.ca-box .ca-warn { color: var(--muted); font-size: 11px; margin-top: 4px; letter-spacing: 0.04em; }
+.ca-box .ca-links { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+.ca-box .ca-links a {
+  color: var(--green); font-size: 12px; letter-spacing: 0.08em; text-decoration: none;
+  border-bottom: 1px solid rgba(20,241,149,0.4);
+}
+#screen-rugged .ca-box { margin-top: 10px; margin-bottom: 4px; }
+
 .overlay {
   position: fixed; inset: 0; z-index: 30;
   display: flex; align-items: center; justify-content: center;

@@ -1,3 +1,5 @@
+import { OFFICIAL_CA, PUMPFUN_URL, SOCIAL_TG, SOCIAL_X } from './config.js?v=80';
+
 const RUGGED = [
   'CAUGHT LACKING. WALLET DRAINED.',
   'YOU GOT RUGGED, BRO.',
@@ -52,6 +54,45 @@ export class UI {
     this._t = 0;
     this._fpsA = 0;
     this._fpsN = 0;
+    this.paintOfficial();
+  }
+
+  paintOfficial() {
+    const live = !!(OFFICIAL_CA && OFFICIAL_CA.trim());
+    const addr = live ? OFFICIAL_CA.trim() : 'LAUNCHING ON PUMP.FUN';
+    const label = live ? 'OFFICIAL CA' : 'CA: COMING SOON';
+    const copyVal = live ? OFFICIAL_CA.trim() : '';
+    const links = [
+      PUMPFUN_URL ? `<a href="${esc(PUMPFUN_URL)}" target="_blank" rel="noopener">BUY ON PUMP.FUN</a>` : '',
+      SOCIAL_X ? `<a href="${esc(SOCIAL_X)}" target="_blank" rel="noopener">X</a>` : '',
+      SOCIAL_TG ? `<a href="${esc(SOCIAL_TG)}" target="_blank" rel="noopener">TELEGRAM</a>` : '',
+    ].filter(Boolean).join('');
+    const html = `<div class="ca-line">
+        <span class="ca-lab">${label}:</span>
+        <span class="ca-addr">${esc(addr)}</span>
+        <button type="button" class="ca-copy" ${live ? '' : 'disabled'}>COPY</button>
+      </div>
+      <div class="ca-warn">Only trust this contract address. Beware of fakes / copycats.</div>
+      ${links ? `<div class="ca-links">${links}</div>` : ''}`;
+    for (const box of document.querySelectorAll('[data-ca]')) {
+      box.innerHTML = html;
+      const btn = box.querySelector('.ca-copy');
+      if (!btn || !live) continue;
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        try {
+          await navigator.clipboard.writeText(copyVal);
+          btn.textContent = 'COPIED';
+          btn.classList.add('ok');
+          setTimeout(() => {
+            btn.textContent = 'COPY';
+            btn.classList.remove('ok');
+          }, 1400);
+        } catch {
+          btn.textContent = 'FAIL';
+        }
+      });
+    }
   }
 
   show(name) {
@@ -326,6 +367,9 @@ export async function saveShareCard({ renderer, who, distance, sol, line, catche
   ctx.fillStyle = '#c8b4ff';
   ctx.font = `400 22px ${gta}`;
   ctx.fillText(line || '', 76, 400);
+  ctx.fillStyle = '#f5c542';
+  ctx.font = `400 18px ${gta}`;
+  ctx.fillText(OFFICIAL_CA ? `OFFICIAL CA: ${OFFICIAL_CA}` : 'OFFICIAL CA: LAUNCHING ON PUMP.FUN', 76, 620);
   ctx.fillStyle = '#14F195';
   ctx.font = `400 20px ${gta}`;
   ctx.fillText('PUMPRUN: GET RICH OR GET RUGGED', 76, 660);
