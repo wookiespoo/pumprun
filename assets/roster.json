@@ -1,0 +1,245 @@
+{
+  "generatedAt": "2026-08-15T03:07:58.931Z",
+  "characters": [
+    {
+      "id": "ansem",
+      "name": "$ANSEM",
+      "tagline": "Bull market in a meat suit",
+      "file": "assets/models/characters/ansem.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "bonk",
+      "name": "BONK",
+      "tagline": "The dog that never sold",
+      "file": "assets/models/characters/bonk.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "gigachad",
+      "name": "GIGACHAD",
+      "tagline": "Jawline could stop a rug",
+      "file": "assets/models/characters/gigachad.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "moodeng",
+      "name": "MOO DENG",
+      "tagline": "Baby hippo. Apex predator.",
+      "file": "assets/models/characters/moodeng.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "penguin",
+      "name": "PUDGY",
+      "tagline": "Waddle in. Liquidity out.",
+      "file": "assets/models/characters/penguin.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "pumper",
+      "name": "PUMPER",
+      "tagline": "The egg that cooked the chart",
+      "file": "assets/models/characters/pumper.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "troll",
+      "name": "TROLL",
+      "tagline": "Slides under rugs. And arches.",
+      "file": "assets/models/characters/troll.glb?v=slide",
+      "clips": [
+        "jump",
+        "run",
+        "walk",
+        "slide",
+        "roll"
+      ],
+      "bones": 24
+    }
+  ],
+  "cops": [
+    {
+      "id": "runner",
+      "name": "THE RUNNER",
+      "tagline": "First on your tail.",
+      "file": "assets/models/cops/cop_runner.glb",
+      "clips": [
+        "alert",
+        "run",
+        "search",
+        "walk"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "chief",
+      "name": "THE CHIEF",
+      "tagline": "Calls the shots.",
+      "file": "assets/models/cops/cop_chief.glb",
+      "clips": [
+        "alert",
+        "run",
+        "search",
+        "walk"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "whale",
+      "name": "THE WHALE",
+      "tagline": "Muscles you down.",
+      "file": "assets/models/cops/cop_whale.glb",
+      "clips": [
+        "alert",
+        "run",
+        "search",
+        "walk"
+      ],
+      "bones": 24
+    },
+    {
+      "id": "creeper",
+      "name": "THE CREEPER",
+      "tagline": "Shows up last.",
+      "file": "assets/models/cops/cop_creeper.glb",
+      "clips": [
+        "groovy",
+        "idle",
+        "run",
+        "walk"
+      ],
+      "bones": 24
+    }
+  ],
+  "props": [
+    {
+      "id": "bush",
+      "name": "BUSH",
+      "tagline": "",
+      "file": "assets/models/props/bush.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "car",
+      "name": "CAR",
+      "tagline": "",
+      "file": "assets/models/props/car.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "cloud",
+      "name": "CLOUD",
+      "tagline": "",
+      "file": "assets/models/props/cloud.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "tree",
+      "name": "TREE BROAD",
+      "tagline": "",
+      "file": "assets/models/props/tree.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "tree_pine",
+      "name": "TREE PINE",
+      "tagline": "",
+      "file": "assets/models/props/tree_pine.glb",
+      "clips": [],
+      "bones": 0
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "hurdle",
+      "name": "WARNING HURDLE",
+      "tagline": "",
+      "file": "assets/models/obstacles/hurdle.glb",
+      "clips": [],
+      "bones": 0
+    }
+  ],
+  "scenery": [
+    {
+      "id": "building_hi",
+      "name": "OFFICE HI",
+      "tagline": "",
+      "file": "assets/models/scenery/building_hi.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "building_wide",
+      "name": "OFFICE WIDE",
+      "tagline": "",
+      "file": "assets/models/scenery/building_wide.glb",
+      "clips": [],
+      "bones": 0
+    }
+  ],
+  "pickups": [
+    {
+      "id": "shield",
+      "name": "SHIELD POWER",
+      "tagline": "",
+      "file": "assets/models/pickups/shield.glb",
+      "clips": [],
+      "bones": 0
+    },
+    {
+      "id": "shield_emblem",
+      "name": "SHIELD EMBLEM",
+      "tagline": "",
+      "file": "assets/models/pickups/shield_emblem.glb",
+      "clips": [],
+      "bones": 0
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PumpRun — Get Rich or Get Rugged</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23070512'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='36' font-family='Impact' fill='%2314F195'%3E$%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css?v=74" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="game"></div>
+  <button type="button" id="btn-mute" class="pill mute-btn float-mute on">SOUND</button>
+
+  <div id="screen-splash" class="screen visible splash">
+    <div class="splash-blur" aria-hidden="true"></div>
+    <img class="splash-art" src="assets/ui/cover.png" alt="PumpRun — Get Rich or Get Rugged" />
+    <button type="button" id="btn-splash" class="splash-tap" disabled>LOADING…</button>
+  </div>
+
+  <div id="screen-boot" class="screen">
+    <div class="wordmark">PUMP<span>RUN</span></div>
+    <div class="tagline">Get Rich or Get Rugged.</div>
+    <div id="boot-msg">LOADING THE TRENCH…</div>
+  </div>
+
+  <div id="screen-select" class="screen">
+    <header class="menu-top">
+      <div class="wordmark">PUMP<span>RUN</span></div>
+      <p class="tagline">Get Rich or Get Rugged.</p>
+    </header>
+
+    <aside class="howto" id="howto">
+      <h2>HOW TO NOT GET RUGGED</h2>
+      <ul>
+        <li><b>AUTO-RUN</b> the trench. Scoop <b>$BAGS</b>.</li>
+        <li><b>A/D</b> or swipe = lane · <b>SPACE</b> jump · <b>S</b> slide.</li>
+        <li><b>JUMP</b> lows · <b>SLIDE</b> arches · <b>RAMP</b> the buses.</li>
+        <li><b>MAGNET</b> pulls bags · <b>SHIELD</b> eats one hit.</li>
+        <li>One hit = <b>RUGGED</b>. Outrun the 5-0.</li>
+      </ul>
+    </aside>
+
+    <div class="wanted-row" id="wanted-row"></div>
+
+    <div class="menu-bottom">
+      <h2 class="pick-label">PICK YOUR RUNNER</h2>
+      <div id="roster-grid"></div>
+      <div class="select-actions">
+        <button id="btn-play" class="btn btn-go">RUN IT</button>
+        <div id="bank-line" class="bank-line">BANK $0 BAGS</div>
+      </div>
+    </div>
+    <div id="select-load" class="select-load">LOADING…</div>
+  </div>
+
+  <div id="hud">
+    <div id="hud-dist" class="gta-dist">0<span>m</span></div>
+    <div id="hud-wanted" class="gta-wanted" data-stars="0" aria-label="wanted">
+      <i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div id="right">
+      <button type="button" id="btn-pause" class="pill hud-btn">PAUSE</button>
+      <div id="power-hud"></div>
+    </div>
+    <div id="hud-sol" class="gta-cash">$0</div>
+    <div id="hud-best" class="gta-best">BEST 0m</div>
+    <div id="hud-cop" class="gta-chaser">5-0: QUIET</div>
+    <div id="announcer"></div>
+    <div id="help">A/D lanes · SPACE jump · S slide</div>
+    <div id="fps">-- fps</div>
+    <div id="touch-pad">
+      <button type="button" data-act="left" aria-label="Left">◀</button>
+      <button type="button" data-act="jump" aria-label="Jump">JUMP</button>
+      <button type="button" data-act="slide" aria-label="Slide">SLIDE</button>
+      <button type="button" data-act="right" aria-label="Right">▶</button>
+    </div>
+  </div>
+
+  <div id="screen-pause" class="screen">
+    <h1>PAUSED</h1>
+    <div class="row">
+      <button id="btn-resume" class="btn btn-go">RESUME</button>
+      <button id="btn-pause-restart" class="btn btn-hot">RESTART</button>
+      <button id="btn-pause-mute" class="btn btn-ghost">MUTE</button>
+    </div>
+  </div>
+
+  <div id="screen-catch" class="screen">
+    <div id="catch-name" class="catch-name"></div>
+  </div>
+
+  <div id="screen-rugged" class="screen">
+    <h1>GET RUGGED</h1>
+    <div id="new-best" class="new-best">NEW BEST!</div>
+    <p id="rugged-line" class="line">YOU GOT RUGGED, BRO.</p>
+    <p id="rugged-who" class="who"></p>
+    <p id="rugged-stats" class="stats"></p>
+    <div class="row">
+      <button id="btn-retry" class="btn btn-hot">RETRY</button>
+      <button id="btn-share" class="btn btn-go">SHARE CARD</button>
+      <button id="btn-menu" class="btn btn-ghost">CHANGE RUNNER</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js?v=74"></script>
+</body>
+</html>

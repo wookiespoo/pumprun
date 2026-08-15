@@ -1,0 +1,23 @@
+{
+  "name": "pumprun-get-rich-or-get-rugged",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PumpRun endless runner — Three.js, no build step",
+  "type": "module",
+  "scripts": {
+    "author": "node tools/author-standins.mjs",
+    "process": "node --max-old-space-size=8192 tools/process-assets.mjs",
+    "process:world": "node --max-old-space-size=8192 tools/process-assets.mjs --world-only",
+    "process:items": "node --max-old-space-size=8192 tools/process-assets.mjs --items-only",
+    "inspect:out": "node tools/inspect-assets.mjs --processed",
+    "start": "python -m http.server 8081"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.4.2",
+    "@gltf-transform/extensions": "^4.4.2",
+    "@gltf-transform/functions": "^4.4.2",
+    "meshoptimizer": "^1.2.0",
+    "puppeteer-core": "^25.6.0",
+    "sharp": "^0.35.3"
+  }
+}

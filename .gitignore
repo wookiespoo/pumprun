@@ -1,0 +1,38 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+id.json
+keypair.json
+wallet.json
+**/id.json
+**/keypair.json
+
+# Dependencies & build
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.turbo/
+.vercel/
+.netlify/
+
+# Local / OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+.idea/
+.vscode/
+*.swp
+
+# Local pipeline / smoke
+tools/smoke-out/
+*.local
