@@ -12,6 +12,7 @@ export const OFFICIAL_CA = '4WyUVjvmhZK3hnRB3u3a49eD2fAxwm6CRU1MZX91pump';
 export const PUMPFUN_URL = 'https://pump.fun/coin/4WyUVjvmhZK3hnRB3u3a49eD2fAxwm6CRU1MZX91pump';
 export const SOCIAL_X = '';
 export const SOCIAL_TG = '';
+export const PLAY_URL = 'https://playpumprun.fun';
 
 export const SUPABASE_URL = 'https://msgvjmcyfoniujntsitp.supabase.co';
 export const SUPABASE_ANON_KEY =

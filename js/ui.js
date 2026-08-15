@@ -1,4 +1,4 @@
-import { OFFICIAL_CA, PUMPFUN_URL, SOCIAL_TG, SOCIAL_X } from './config.js?v=80';
+import { OFFICIAL_CA, PLAY_URL, PUMPFUN_URL, SOCIAL_TG, SOCIAL_X } from './config.js?v=81';
 
 const RUGGED = [
   'CAUGHT LACKING. WALLET DRAINED.',
@@ -64,6 +64,7 @@ export class UI {
     const copyVal = live ? OFFICIAL_CA.trim() : '';
     const links = [
       PUMPFUN_URL ? `<a href="${esc(PUMPFUN_URL)}" target="_blank" rel="noopener">BUY ON PUMP.FUN</a>` : '',
+      `<a href="${esc(xShareUrl())}" target="_blank" rel="noopener">SHARE ON X</a>`,
       SOCIAL_X ? `<a href="${esc(SOCIAL_X)}" target="_blank" rel="noopener">X</a>` : '',
       SOCIAL_TG ? `<a href="${esc(SOCIAL_TG)}" target="_blank" rel="noopener">TELEGRAM</a>` : '',
     ].filter(Boolean).join('');
@@ -325,6 +326,19 @@ export class UI {
       this._fpsN = 0;
     }
   }
+}
+
+export function xShareUrl({ distance, bags, name } = {}) {
+  const bits = [
+    Number(distance) > 0
+      ? `Got rugged on PumpRun — ${Math.floor(distance)}m · $${Math.floor(bags || 0)} BAGS.`
+      : 'PumpRun — Get Rich or Get Rugged.',
+    name ? `Tag: ${name}` : '',
+    PLAY_URL ? `Play: ${PLAY_URL}` : '',
+    OFFICIAL_CA ? `OFFICIAL CA: ${OFFICIAL_CA}` : '',
+    PUMPFUN_URL || '',
+  ].filter(Boolean);
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(bits.join('\n'))}`;
 }
 
 export async function saveShareCard({ renderer, who, distance, sol, line, catcher, best }) {
