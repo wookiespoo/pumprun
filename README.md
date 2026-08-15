@@ -25,6 +25,12 @@ python -m http.server 8081
 
 Open http://localhost:8081
 
+## Leaderboard
+
+Global scores use Supabase (anon key + RLS). Apply `supabase/scores.sql` in the SQL editor, then put the project URL and **anon** key in `js/config.js`. Never put the `service_role` key in this repo.
+
+Local BEST is stored as `pumprun_best_v2` so old test scores are ignored.
+
 ## Stack
 
 - Three.js r170 (ESM / import map)

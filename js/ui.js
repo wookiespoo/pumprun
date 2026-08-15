@@ -38,6 +38,16 @@ export class UI {
       splashBtn: document.getElementById('btn-splash'),
       selectLoad: document.getElementById('select-load'),
       wantedHud: document.getElementById('hud-wanted'),
+      nameOverlay: document.getElementById('name-overlay'),
+      nameForm: document.getElementById('name-form'),
+      nameInput: document.getElementById('name-input'),
+      nameErr: document.getElementById('name-err'),
+      boardOverlay: document.getElementById('board-overlay'),
+      boardList: document.getElementById('board-list'),
+      boardYou: document.getElementById('board-you'),
+      boardStatus: document.getElementById('board-status'),
+      ruggedRank: document.getElementById('rugged-rank'),
+      btnName: document.getElementById('btn-name'),
     };
     this._t = 0;
     this._fpsA = 0;
@@ -196,6 +206,55 @@ export class UI {
       this.els.catchName.innerHTML = `<span class="cop-name">${esc(name || 'THE 5-0')}</span><span class="caught-you">caught you.</span>`;
     }
     this.show('catch');
+  }
+
+  showName(existing = '') {
+    if (!this.els.nameOverlay) return;
+    this.els.nameOverlay.hidden = false;
+    if (this.els.nameErr) this.els.nameErr.textContent = '';
+    if (this.els.nameInput) {
+      this.els.nameInput.value = existing || '';
+      this.els.nameInput.focus();
+      this.els.nameInput.select();
+    }
+  }
+
+  hideName() {
+    if (this.els.nameOverlay) this.els.nameOverlay.hidden = true;
+  }
+
+  nameError(msg) {
+    if (this.els.nameErr) this.els.nameErr.textContent = msg || '';
+  }
+
+  setTagLabel(name) {
+    if (this.els.btnName) this.els.btnName.textContent = name ? name.toUpperCase() : 'TAG';
+  }
+
+  hideBoard() {
+    if (this.els.boardOverlay) this.els.boardOverlay.hidden = true;
+  }
+
+  showBoard({ rows = [], you = '', status = '', username = '' } = {}) {
+    if (!this.els.boardOverlay) return;
+    this.els.boardOverlay.hidden = false;
+    if (this.els.boardYou) this.els.boardYou.textContent = you || 'NO TAG YET';
+    if (this.els.boardStatus) this.els.boardStatus.textContent = status || '';
+    if (!this.els.boardList) return;
+    if (!rows.length) {
+      this.els.boardList.innerHTML = '<li class="empty"><span class="nm">NO RUNS YET. BE FIRST.</span></li>';
+      return;
+    }
+    this.els.boardList.innerHTML = rows
+      .map((r, i) => {
+        const me = username && String(r.username).toLowerCase() === String(username).toLowerCase();
+        return `<li class="${me ? 'me' : ''}"><span class="rk">${i + 1}</span><span class="nm">${esc(r.username)}</span><span class="m">${Math.floor(r.distance)}m</span><span class="b">$${Math.floor(r.bags || 0)}</span></li>`;
+      })
+      .join('');
+  }
+
+  setRuggedRank(text) {
+    if (this.els.ruggedRank) this.els.ruggedRank.textContent = text || '';
   }
 
   rugged(catcher, distance, sol, best, isNewBest) {

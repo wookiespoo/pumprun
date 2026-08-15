@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>PumpRun — Get Rich or Get Rugged</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23070512'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='36' font-family='Impact' fill='%2314F195'%3E$%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="css/style.css?v=74" />
+  <link rel="stylesheet" href="css/style.css?v=75" />
   <script type="importmap">
   {
     "imports": {
@@ -55,6 +55,8 @@
       <div id="roster-grid"></div>
       <div class="select-actions">
         <button id="btn-play" class="btn btn-go">RUN IT</button>
+        <button type="button" id="btn-board" class="btn btn-ghost">BOARD</button>
+        <button type="button" id="btn-name" class="btn btn-ghost">TAG</button>
         <div id="bank-line" class="bank-line">BANK $0 BAGS</div>
       </div>
     </div>
@@ -103,13 +105,35 @@
     <p id="rugged-line" class="line">YOU GOT RUGGED, BRO.</p>
     <p id="rugged-who" class="who"></p>
     <p id="rugged-stats" class="stats"></p>
+    <p id="rugged-rank" class="board-rank"></p>
     <div class="row">
       <button id="btn-retry" class="btn btn-hot">RETRY</button>
+      <button type="button" id="btn-rugged-board" class="btn btn-ghost">BOARD</button>
       <button id="btn-share" class="btn btn-go">SHARE CARD</button>
       <button id="btn-menu" class="btn btn-ghost">CHANGE RUNNER</button>
     </div>
   </div>
 
-  <script type="module" src="js/main.js?v=74"></script>
+  <div id="name-overlay" class="overlay" hidden>
+    <form id="name-form" class="overlay-card" autocomplete="off">
+      <h2>TAG UP</h2>
+      <p>Pick a name for the global board.</p>
+      <input id="name-input" name="username" maxlength="16" minlength="3" placeholder="YOUR TAG" spellcheck="false" />
+      <p id="name-err" class="overlay-err"></p>
+      <button type="submit" class="btn btn-go">LOCK IT IN</button>
+    </form>
+  </div>
+
+  <div id="board-overlay" class="overlay" hidden>
+    <div class="overlay-card board-card">
+      <h2>GLOBAL BOARD</h2>
+      <p id="board-you" class="board-you">NO TAG YET</p>
+      <ol id="board-list" class="board-list"></ol>
+      <p id="board-status" class="board-status"></p>
+      <button type="button" id="btn-board-close" class="btn btn-hot">CLOSE</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js?v=75"></script>
 </body>
 </html>

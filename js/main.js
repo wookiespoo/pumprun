@@ -7,11 +7,20 @@ import { ChaseCam } from './camera.js?v=73';
 import { Chaser, makeWantedPlate, playMenuIdle, tickMenuIdle } from './cop.js?v=74';
 import { Track } from './track.js?v=70';
 import { Spawner } from './spawn.js?v=69';
-import { UI, saveShareCard } from './ui.js?v=71';
+import { UI, saveShareCard } from './ui.js?v=75';
 import { AudioBus } from './audio.js?v=69';
 import { DAY, Weather } from './weather.js?v=52';
+import {
+  boardReady,
+  fetchBoard,
+  fetchStanding,
+  getUsername,
+  loadBest,
+  saveBest,
+  setUsername,
+  submitRun,
+} from './board.js?v=75';
 
-const BEST_KEY = 'pumprun_best';
 const BANK_KEY = 'pumprun_bank';
 const UNLOCK_KEY = 'pumprun_unlocked';
 
@@ -65,7 +74,7 @@ let lastLine = '';
 let lastCatcher = '';
 let catchT = 0;
 let catchBest = false;
-let best = Number(localStorage.getItem(BEST_KEY) || 0);
+let best = loadBest();
 let bank = Number(localStorage.getItem(BANK_KEY) || 0);
 let unlocked = new Set(STARTERS);
 let busy = false;
@@ -92,6 +101,8 @@ function dismissSplash() {
   mode = 'select';
   ui.show('select');
   frameMenuCam();
+  ui.setTagLabel(getUsername());
+  if (!getUsername()) ui.showName('');
 }
 document.getElementById('btn-splash')?.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -100,12 +111,37 @@ document.getElementById('btn-splash')?.addEventListener('click', (e) => {
 document.getElementById('screen-splash')?.addEventListener('click', () => dismissSplash());
 document.getElementById('btn-play').addEventListener('click', () => {
   audio.unlock();
+  if (!getUsername()) {
+    ui.showName('');
+    return;
+  }
   if (!selectedId) return;
   if (!isUnlocked(selectedId)) {
     tryUnlock(selectedId);
     return;
   }
   startRun(selectedId);
+});
+document.getElementById('btn-board')?.addEventListener('click', () => openBoard());
+document.getElementById('btn-rugged-board')?.addEventListener('click', () => openBoard());
+document.getElementById('btn-board-close')?.addEventListener('click', () => ui.hideBoard());
+document.getElementById('board-overlay')?.addEventListener('click', (e) => {
+  if (e.target?.id === 'board-overlay') ui.hideBoard();
+});
+document.getElementById('btn-name')?.addEventListener('click', () => ui.showName(getUsername()));
+document.getElementById('name-form')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const hit = setUsername(document.getElementById('name-input')?.value);
+  if (!hit.ok) {
+    ui.nameError(hit.error);
+    return;
+  }
+  ui.nameError('');
+  ui.hideName();
+  ui.setTagLabel(hit.name);
+});
+document.getElementById('name-overlay')?.addEventListener('click', (e) => {
+  if (e.target?.id === 'name-overlay' && getUsername()) ui.hideName();
 });
 document.getElementById('btn-retry').addEventListener('click', () => {
   audio.unlock();
@@ -394,6 +430,7 @@ async function enterMenu() {
   mode = 'select';
   ui.show('select');
   input.enabled = true;
+  ui.setTagLabel(getUsername());
   ui.setBank(bank);
   rebuildRoster();
   refreshPlay();
@@ -455,6 +492,7 @@ async function startRun(id) {
     ui.show('hud');
     audio.unlock();
     audio.beginRun();
+    ui.setTagLabel(getUsername());
     ui.hud({ distance: 0, sol: 0, best, powers: runner.powers, powerMax: runner.powerMax, chaser: cop.name, chased: false, tension: 0 });
     ui.say(`${theme.name}. CLEAN RUN — DON'T GET SLOPPY.`, 2.2);
   } catch (err) {
@@ -476,10 +514,8 @@ function crash() {
   audio.catchSting();
   lastCatcher = cop.name;
   catchBest = runner.distance > best;
-  if (catchBest) {
-    best = runner.distance;
-    localStorage.setItem(BEST_KEY, String(Math.floor(best)));
-  }
+  if (catchBest) best = saveBest(runner.distance);
+  postScore(runner.distance, sol, selectedId);
   bank += sol;
   localStorage.setItem(BANK_KEY, String(Math.floor(bank)));
   ui.setBank(bank);
@@ -497,6 +533,43 @@ function tickCatch(dt) {
   if (catchT <= 0) {
     lastLine = ui.rugged(cop.name, runner.distance, sol, best, catchBest);
     mode = 'rugged';
+    if (!getUsername()) ui.showName('');
+  }
+}
+
+async function openBoard() {
+  const name = getUsername();
+  ui.showBoard({ rows: [], you: name ? `TAG ${name}` : 'NO TAG YET', status: 'LOADING…', username: name });
+  if (!boardReady()) {
+    ui.showBoard({ rows: [], you: name ? `TAG ${name}` : 'NO TAG YET', status: 'BOARD OFFLINE — SUPABASE NOT LINKED', username: name });
+    return;
+  }
+  try {
+    const [rows, stand] = await Promise.all([fetchBoard(40), fetchStanding(name)]);
+    const you = name
+      ? stand?.rank
+        ? `${name}  ·  BEST ${stand.best}m  ·  RANK #${stand.rank}`
+        : `${name}  ·  NO BOARD RUNS YET`
+      : 'NO TAG YET';
+    ui.showBoard({ rows, you, status: rows.length ? '' : 'EMPTY BOARD. FIRST CLEAN RUN TAKES #1.', username: name });
+  } catch (err) {
+    ui.showBoard({ rows: [], you: name || 'NO TAG YET', status: String(err?.message || err), username: name });
+  }
+}
+
+async function postScore(distance, bags, character) {
+  const name = getUsername();
+  if (!name) return;
+  const who = roster?.characters?.find((c) => c.id === character)?.name || character || '';
+  try {
+    const sent = await submitRun({ username: name, distance, bags, character: who });
+    if (sent?.skipped) return;
+    const stand = await fetchStanding(name);
+    if (stand?.rank) ui.setRuggedRank(`RANK #${stand.rank}  ·  BEST ${stand.best}m`);
+    else if (!sent?.ok) ui.setRuggedRank('BOARD MISS');
+  } catch (err) {
+    console.warn('[board] submit', err);
+    ui.setRuggedRank('BOARD MISS');
   }
 }
 
@@ -614,7 +687,8 @@ function frame() {
     else tryUnlock(selectedId);
   }
   if (mode === 'rugged' && input._pressed.has('Space')) {
-    if (selectedId && isUnlocked(selectedId)) startRun(selectedId);
+    const blocked = !document.getElementById('name-overlay')?.hidden || !document.getElementById('board-overlay')?.hidden;
+    if (!blocked && selectedId && isUnlocked(selectedId) && getUsername()) startRun(selectedId);
   }
   if ((input._pressed.has('Escape') || input._pressed.has('KeyP')) && !busy) {
     if (mode === 'play') pause();

@@ -439,3 +439,51 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   text-shadow: 3px 3px 0 #000;
 }
 .select-load.show { display: flex; }
+
+.overlay {
+  position: fixed; inset: 0; z-index: 30;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(7,5,18,0.72);
+  padding: 4vh 4vw;
+}
+.overlay[hidden] { display: none !important; }
+.overlay-card {
+  width: min(520px, 96vw);
+  background: rgba(10,6,20,0.94);
+  border: 2px solid rgba(245,197,66,0.55);
+  border-radius: 12px;
+  padding: 22px 22px 18px;
+  text-align: center;
+  font-family: var(--gta);
+}
+.overlay-card h2 {
+  color: #f5c542; font-size: clamp(28px, 5vw, 42px); letter-spacing: 0.08em;
+  text-shadow: 3px 3px 0 #000;
+}
+.overlay-card p { color: var(--muted); margin: 8px 0 14px; }
+#name-input {
+  width: 100%; font-family: var(--gta); font-size: 28px; letter-spacing: 0.08em;
+  text-align: center; text-transform: uppercase;
+  background: #120818; color: var(--ink); border: 2px solid var(--purple);
+  padding: 10px 12px; border-radius: 6px;
+}
+.overlay-err { color: var(--hot); min-height: 1.2em; }
+.board-card { width: min(640px, 96vw); }
+.board-you { color: var(--green) !important; letter-spacing: 0.06em; }
+.board-list {
+  list-style: none; text-align: left; max-height: min(46vh, 420px);
+  overflow: auto; margin: 0 0 12px; padding: 0;
+}
+.board-list li {
+  display: grid; grid-template-columns: 2.4em 1fr auto auto;
+  gap: 10px; align-items: baseline;
+  padding: 6px 4px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: var(--ink); font-size: clamp(15px, 1.6vw, 20px);
+}
+.board-list .rk { color: #f5c542; }
+.board-list .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board-list .m { color: #fff; }
+.board-list .b { color: var(--green); }
+.board-list li.me { background: rgba(20,241,149,0.12); }
+.board-status { color: var(--muted); font-size: 14px; }
+.board-rank { color: #f5c542; text-shadow: 2px 2px 0 #000; min-height: 1.2em; }
