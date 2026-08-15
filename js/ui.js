@@ -101,17 +101,18 @@ export class UI {
       .join('');
   }
 
-  buildRoster(chars, { selected, unlocked, cost, onPick }) {
+  buildRoster(chars, { selected, unlocked, cost, costOf, onPick }) {
     this.els.grid.innerHTML = '';
     for (const c of chars) {
       const lock = !unlocked.has(c.id);
+      const price = costOf ? costOf(c.id) : cost;
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'char-card' + (c.id === selected ? ' selected' : '') + (lock ? ' locked' : '');
       b.dataset.id = c.id;
       b.innerHTML = `<div class="char-id">${esc(c.name)}</div>
         <div class="char-tag">${esc(c.tagline || '')}</div>
-        ${lock ? `<div class="char-lock">LOCKED · $${cost} BAGS</div>` : ''}`;
+        ${lock ? `<div class="char-lock">LOCKED · $${price} BAGS</div>` : ''}`;
       b.addEventListener('click', () => onPick(c.id));
       this.els.grid.appendChild(b);
     }

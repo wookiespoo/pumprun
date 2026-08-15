@@ -181,5 +181,21 @@ export function pickRunCop() {
   return COPS[(Math.random() * COPS.length) | 0];
 }
 
-export const STARTERS = ['ansem', 'bonk', 'troll', 'gigachad'];
+export const STARTERS = ['ansem'];
 export const UNLOCK_COST = 250;
+export const UNLOCK_COSTS = {
+  ansem: 0,
+  bonk: 250,
+  troll: 500,
+  gigachad: 1000,
+  moodeng: 1500,
+  penguin: 2500,
+  pumper: 4000,
+  trollface: 5000,
+};
+
+export function unlockCost(id) {
+  if (STARTERS.includes(id)) return 0;
+  const n = UNLOCK_COSTS[id];
+  return Number.isFinite(n) ? n : 2500;
+}

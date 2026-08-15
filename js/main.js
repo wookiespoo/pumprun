@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Input } from './input.js?v=23';
 import { loadRoster, loadGltf, mountModel } from './roster.js?v=71';
-import { COPS, FACE_YAW, LINEUP, STARTERS, UNLOCK_COST, copById } from './catalog.js?v=74';
+import { COPS, FACE_YAW, LINEUP, STARTERS, unlockCost, copById } from './catalog.js?v=77';
 import { Runner } from './runner.js?v=69';
 import { ChaseCam } from './camera.js?v=73';
 import { Chaser, makeWantedPlate, playMenuIdle, tickMenuIdle } from './cop.js?v=74';
@@ -19,10 +19,10 @@ import {
   saveBest,
   setUsername,
   submitRun,
-} from './board.js?v=75';
-
-const BANK_KEY = 'pumprun_bank';
-const UNLOCK_KEY = 'pumprun_unlocked';
+  BANK_KEY,
+  UNLOCK_KEY,
+  wipeLegacySaves,
+} from './board.js?v=78';
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
@@ -74,6 +74,7 @@ let lastLine = '';
 let lastCatcher = '';
 let catchT = 0;
 let catchBest = false;
+wipeLegacySaves();
 let best = loadBest();
 let bank = Number(localStorage.getItem(BANK_KEY) || 0);
 let unlocked = new Set(STARTERS);
@@ -203,11 +204,12 @@ function persistUnlocked() {
 
 function tryUnlock(id) {
   if (isUnlocked(id)) return true;
-  if (bank < UNLOCK_COST) {
-    ui.say(`NEED $${UNLOCK_COST} BAGS TO UNLOCK.`, 2.2);
+  const cost = unlockCost(id);
+  if (bank < cost) {
+    ui.say(`NEED $${cost} BAGS TO UNLOCK.`, 2.2);
     return false;
   }
-  bank -= UNLOCK_COST;
+  bank -= cost;
   localStorage.setItem(BANK_KEY, String(Math.floor(bank)));
   unlocked.add(id);
   persistUnlocked();
@@ -222,19 +224,19 @@ function rebuildRoster() {
   ui.buildRoster(roster.characters, {
     selected: selectedId,
     unlocked,
-    cost: UNLOCK_COST,
+    costOf: unlockCost,
     onPick: (id) => {
       selectedId = id;
       ui.mark(id);
       refreshPlay();
       showPreview(id);
-      if (!isUnlocked(id)) ui.say(`LOCKED · $${UNLOCK_COST} BAGS`, 1.6);
+      if (!isUnlocked(id)) ui.say(`LOCKED · $${unlockCost(id)} BAGS`, 1.6);
     },
   });
 }
 
 function refreshPlay() {
-  if (!isUnlocked(selectedId)) ui.setPlayLabel(`UNLOCK · $${UNLOCK_COST}`, true);
+  if (!isUnlocked(selectedId)) ui.setPlayLabel(`UNLOCK · $${unlockCost(selectedId)}`, true);
   else ui.setPlayLabel('RUN IT', false);
 }
 

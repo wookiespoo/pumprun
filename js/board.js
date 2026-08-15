@@ -1,24 +1,46 @@
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from './config.js?v=76';
 
-export const NAME_KEY = 'pumprun_name';
-const BEST_LEGACY = 'pumprun_best';
-export const BEST_KEY = 'pumprun_best_v2';
+export const NAME_KEY = 'pumprun_name_v2';
+export const BEST_KEY = 'pumprun_best_v3';
+export const BANK_KEY = 'pumprun_bank_v2';
+export const UNLOCK_KEY = 'pumprun_unlocked_v2';
+const SAVE_GEN = 4;
+const SAVE_GEN_KEY = 'pumprun_save_gen';
+
+/** Old keys that must be deleted on every boot so test caches die. */
+const DEAD_KEYS = [
+  'pumprun_best',
+  'pumprun_best_v2',
+  'pumprun_bank',
+  'pumprun_unlocked',
+  'pumprun_name',
+];
 
 const BANNED = new Set([
   'admin', 'nigger', 'nigga', 'faggot', 'fuck', 'shit', 'asshole', 'rape',
   'hitler', 'nazi', 'kike', 'chink', 'spic', 'retard',
 ]);
 
-export function resetLegacyBest() {
+/** One-shot wipe of test/dev saves. New gen keys never read the old ones. */
+export function wipeLegacySaves() {
   try {
-    localStorage.removeItem(BEST_LEGACY);
+    for (const k of DEAD_KEYS) localStorage.removeItem(k);
+    const gen = Number(localStorage.getItem(SAVE_GEN_KEY) || 0);
+    if (gen >= SAVE_GEN) return;
+    localStorage.removeItem(BEST_KEY);
+    localStorage.removeItem(BANK_KEY);
+    localStorage.removeItem(UNLOCK_KEY);
+    localStorage.removeItem(NAME_KEY);
+    localStorage.setItem(SAVE_GEN_KEY, String(SAVE_GEN));
   } catch {
     /* private mode */
   }
 }
 
+wipeLegacySaves();
+
 export function loadBest() {
-  resetLegacyBest();
+  wipeLegacySaves();
   const n = Number(localStorage.getItem(BEST_KEY) || 0);
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
