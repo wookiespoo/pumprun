@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>PumpRun — Get Rich or Get Rugged</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23070512'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='36' font-family='Impact' fill='%2314F195'%3E$%3C/text%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="css/style.css?v=79" />
+  <link rel="stylesheet" href="css/style.css?v=82" />
   <script type="importmap">
   {
     "imports": {
@@ -35,7 +35,6 @@
     <header class="menu-top">
       <div class="wordmark">PUMP<span>RUN</span></div>
       <p class="tagline">Get Rich or Get Rugged.</p>
-      <div class="ca-box" data-ca></div>
     </header>
 
     <aside class="howto" id="howto">
@@ -107,7 +106,6 @@
     <p id="rugged-who" class="who"></p>
     <p id="rugged-stats" class="stats"></p>
     <p id="rugged-rank" class="board-rank"></p>
-    <div class="ca-box" data-ca></div>
     <div class="row">
       <button id="btn-retry" class="btn btn-hot">RETRY</button>
       <button type="button" id="btn-rugged-board" class="btn btn-ghost">BOARD</button>
@@ -116,6 +114,10 @@
       <button id="btn-menu" class="btn btn-ghost">CHANGE RUNNER</button>
     </div>
   </div>
+
+  <footer id="ca-footer" class="ca-footer" hidden>
+    <div class="ca-box" data-ca></div>
+  </footer>
 
   <div id="name-overlay" class="overlay" hidden>
     <form id="name-form" class="overlay-card" autocomplete="off">
@@ -137,6 +139,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/main.js?v=81"></script>
+  <script type="module" src="js/main.js?v=82"></script>
 </body>
 </html>

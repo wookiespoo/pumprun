@@ -7,7 +7,7 @@ import { ChaseCam } from './camera.js?v=73';
 import { Chaser, makeWantedPlate, playMenuIdle, tickMenuIdle } from './cop.js?v=74';
 import { Track } from './track.js?v=70';
 import { Spawner } from './spawn.js?v=69';
-import { UI, saveShareCard, xShareUrl } from './ui.js?v=81';
+import { UI, saveShareCard, xShareUrl } from './ui.js?v=82';
 import { AudioBus } from './audio.js?v=69';
 import { DAY, Weather } from './weather.js?v=52';
 import {
@@ -171,7 +171,8 @@ document.getElementById('btn-mute').addEventListener('click', (e) => {
   ui.setMuted(audio.toggleMute());
 });
 ui.setMuted(audio.muted);
-document.getElementById('btn-x-share')?.addEventListener('click', () => {
+document.getElementById('btn-x-share')?.addEventListener('click', (e) => {
+  e.preventDefault();
   const url = xShareUrl({
     distance: runner?.distance || 0,
     bags: sol,

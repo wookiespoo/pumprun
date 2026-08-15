@@ -440,13 +440,23 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
 }
 .select-load.show { display: flex; }
 
+.ca-footer {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: rgba(7,5,18,0.94);
+  border-top: 2px solid rgba(245,197,66,0.5);
+  padding: 6px 10px 8px;
+}
+.ca-footer[hidden] { display: none !important; }
 .ca-box {
-  margin: 8px auto 0;
-  width: min(720px, 92vw);
+  margin: 0 auto;
+  width: min(980px, 96vw);
   pointer-events: auto;
-  background: rgba(8,6,14,0.82);
-  border: 1px solid rgba(245,197,66,0.45);
-  padding: 8px 10px 7px;
+  background: transparent;
+  border: 0;
+  padding: 2px 0;
   text-align: center;
 }
 .ca-box .ca-line {
@@ -470,7 +480,8 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg);
   color: var(--green); font-size: 12px; letter-spacing: 0.08em; text-decoration: none;
   border-bottom: 1px solid rgba(20,241,149,0.4);
 }
-#screen-rugged .ca-box { margin-top: 10px; margin-bottom: 4px; }
+#screen-select.screen.visible { padding-bottom: 92px; }
+#screen-rugged { padding-bottom: max(14vh, 110px); }
 
 .overlay {
   position: fixed; inset: 0; z-index: 30;

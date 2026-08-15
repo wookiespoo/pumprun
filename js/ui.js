@@ -1,4 +1,4 @@
-import { OFFICIAL_CA, PLAY_URL, PUMPFUN_URL, SOCIAL_TG, SOCIAL_X } from './config.js?v=81';
+import { OFFICIAL_CA, PLAY_URL, PUMPFUN_URL, SOCIAL_TG, SOCIAL_X } from './config.js?v=82';
 
 const RUGGED = [
   'CAUGHT LACKING. WALLET DRAINED.',
@@ -63,8 +63,8 @@ export class UI {
     const label = live ? 'OFFICIAL CA' : 'CA: COMING SOON';
     const copyVal = live ? OFFICIAL_CA.trim() : '';
     const links = [
-      PUMPFUN_URL ? `<a href="${esc(PUMPFUN_URL)}" target="_blank" rel="noopener">BUY ON PUMP.FUN</a>` : '',
-      `<a href="${esc(xShareUrl())}" target="_blank" rel="noopener">SHARE ON X</a>`,
+      PUMPFUN_URL ? `<a href="${esc(PUMPFUN_URL)}" target="_blank" rel="noopener noreferrer">BUY ON PUMP.FUN</a>` : '',
+      `<a href="${esc(xShareUrl())}" target="_blank" rel="noopener noreferrer">SHARE ON X</a>`,
       SOCIAL_X ? `<a href="${esc(SOCIAL_X)}" target="_blank" rel="noopener">X</a>` : '',
       SOCIAL_TG ? `<a href="${esc(SOCIAL_TG)}" target="_blank" rel="noopener">TELEGRAM</a>` : '',
     ].filter(Boolean).join('');
@@ -102,6 +102,8 @@ export class UI {
       el.classList.toggle('visible', k === name);
     }
     this.els.hud.classList.toggle('visible', name === 'hud');
+    const foot = document.getElementById('ca-footer');
+    if (foot) foot.hidden = name !== 'select' && name !== 'rugged';
   }
 
   boot(msg) {
@@ -329,16 +331,16 @@ export class UI {
 }
 
 export function xShareUrl({ distance, bags, name } = {}) {
-  const bits = [
+  const lines = [
     Number(distance) > 0
-      ? `Got rugged on PumpRun — ${Math.floor(distance)}m · $${Math.floor(bags || 0)} BAGS.`
-      : 'PumpRun — Get Rich or Get Rugged.',
+      ? `Got rugged on PUMPRUN — ${Math.floor(distance)}m · $${Math.floor(bags || 0)} BAGS.`
+      : 'Playing PUMPRUN — Get rich or get rugged.',
+    'Scoop bags, outrun the cops, top the leaderboard.',
     name ? `Tag: ${name}` : '',
-    PLAY_URL ? `Play: ${PLAY_URL}` : '',
-    OFFICIAL_CA ? `OFFICIAL CA: ${OFFICIAL_CA}` : '',
-    PUMPFUN_URL || '',
+    `Play: ${PLAY_URL || 'https://playpumprun.fun'}`,
+    OFFICIAL_CA ? `$PRUN CA: ${OFFICIAL_CA}` : '',
   ].filter(Boolean);
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(bits.join('\n'))}`;
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 export async function saveShareCard({ renderer, who, distance, sol, line, catcher, best }) {
